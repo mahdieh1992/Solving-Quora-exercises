@@ -8,3 +8,4 @@ lenList = [len(listUnique[_])  for _ in range(n)]
 print(max(lenList))
 
 
+
