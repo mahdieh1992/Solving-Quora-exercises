@@ -1,3 +1,4 @@
+# مرتب سازی حبابی نزولی 
 count_Entrance = int(input())
 myList = list(map(int,input().split()))
 n = len(myList)
