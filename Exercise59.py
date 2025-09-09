@@ -1,3 +1,4 @@
+# اتل متل
 n, k = map(int, input().split())
 num = []
 # create list of pair number
