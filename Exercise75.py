@@ -1,3 +1,4 @@
+#کارمند زیادی
 def calc(arr):
     ln = len(arr)
     # earn avg numbers in arr

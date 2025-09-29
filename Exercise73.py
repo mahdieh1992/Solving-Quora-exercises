@@ -1,3 +1,4 @@
+#بمب‌بازی
 n , m = map(int, input().split())
 def check_pos(x,y,board):
     position__increase = [[x - 1, y], [x + 1, y], [x, y + 1],[x - 1, y + 1],

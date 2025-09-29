@@ -1,3 +1,4 @@
+#بتایپ
 s = input().strip("=")
 newString = []
 for chr in s:
