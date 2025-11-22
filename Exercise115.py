@@ -81,14 +81,35 @@ class Site:
     
     
     def __init__(self, url_address: str) -> None:
-        ...
+        self.url_address = url_address
+        self.registered_users = []
+        self.active_users = []
 
     def register(self, user: Account) -> str:
-        ...
-
+        if self.registered_users:
+            for registered_user in self.registered_users:
+                if registered_user.username == user.username:
+                   raise ValueError("User already registered.")
+        self.registered_users.append(user)
+        return "Register successful."
+    
     def login(self, username: str = None, email: str = None, password: str = None) -> str:
-        ...
-
+        if password is None or (username is None and email is None):
+            return "Invalid login."
+        
+        encoded = password.encode('utf-8')
+        hash_pass = hashlib.sha256(encoded)
+        pass_hex = hash_pass.hexdigest()
+        
+        for user in self.registered_users:
+            if pass_hex == user.password and (username == user.username or email == user.email):
+                if user in self.active_users:
+                    return "User already logged in."
+                else:
+                    self.active_users.append(user)
+                    return "Login successful."
+        return "Invalid login."
+           
     def logout(self, user) -> str:
         ...
 
@@ -118,5 +139,8 @@ def change_password(user, old_pass, new_pass):
     return "Your password has been changed successfully."
 
 
-account1 = Account('ali_babai','Aabbccdd12','0024848484','09133747009','ali.babaei-123@company.amni')
-print(account1.set_new_password("Adh"))
+# account1 = Account('ali_babai','Aabbccdd12','0024848484','09133747009','ali.babaei-123@company.amni')
+# sit = Site("https://www.google.com")
+
+# sit.register(account1)
+# print(sit.registered_users)
