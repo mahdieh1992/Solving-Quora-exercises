@@ -81,7 +81,7 @@ class Site:
     
     
     def __init__(self, url_address: str) -> None:
-        self.url_address = url_address
+        self.url = url_address
         self.registered_users = []
         self.active_users = []
 
@@ -111,7 +111,11 @@ class Site:
         return "Invalid login."
            
     def logout(self, user) -> str:
-        ...
+        if user in self.active_users:
+           self.active_users.remove(user)
+           return "Logout successful."
+        return "User is not logged in."
+            
 
     def __repr__(self):
         return f"Website URL: {self.url}\nRegistered users: {self.register_users}\nActive users: {self.active_users}"
@@ -122,11 +126,24 @@ class Site:
 
 
 def show_welcome(func):
-    ...
+    def wrapper(user):
+        get_user = user.username
+        get_user = get_user.replace('_',' ').title()
+        if len(get_user) > 15:
+            get_user = f"{get_user[:15]}..."
+        return func(get_user)
+    return wrapper
+
+        
 
 
 def verify_change_password(func):
-    ...
+    def wrapper(user, old_pass, new_pass):
+        hash_pass = user.password_validation(old_pass)
+        if hash_pass == user.password:
+            return func(user,old_pass,new_pass)
+        raise ValueError("Incorrect old password.")
+    return wrapper
 
 
 @show_welcome
@@ -136,11 +153,16 @@ def welcome(user):
 
 @verify_change_password
 def change_password(user, old_pass, new_pass):
-    return "Your password has been changed successfully."
+    new_pass = user.password_validation(new_pass)
+    user.password = new_pass
+    return f"Your password has been changed successfully."
 
 
-# account1 = Account('ali_babai','Aabbccdd12','0024848484','09133747009','ali.babaei-123@company.amni')
-# sit = Site("https://www.google.com")
+user1 = Account("SAliBSeyedAli_Babaei", "5Dj:xKBA", "0030376459", "09121212121", "SAliB_SAliB@gmail.com")
+user2 = Account("helia_taromi", "Pheno2025!", "0362138028", "09191111111", "helia@gmail.com")
 
-# sit.register(account1)
-# print(sit.registered_users)
+site = Site("https://www.google.com")
+print(site.register(user1))
+print(site.register(user2))
+print(site.login("helia_taromi","", "Pheno2025!"))
+print(site.logout(user1))
